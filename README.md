@@ -3,9 +3,9 @@
 Our Nostr account: 
 https://nostrudel.ninja/#/u/npub1s3ht77dq4zqnya8vjun5jp3p44pr794ru36d0ltxu65chljw8xjqd975wz
 
-We are putting together a team to provide an open-source and decentralized replacement for GitHub.
-Team members are: 
+We are putting together a team to provide an open-source, decentralized replacement for GitHub. As even GitLab and self-hosted git are centralized (based upon a particular server or service), we see the need for a truly distributed alternative, that can be used without offering any personal identification, that utilizes an open protocol, and that is censorship-resistent.
 
+Team members are: 
 - Product Owner and Dev: [@buttercat1791](https://github.com/buttercat1791)
 - Business Analyst and Validator: [@SilberWitch](https://github.com/silberwitch)
 - DevOps and Dev: [@finrodfelagund97](https://github.com/finrodfelagund97)
