@@ -1,18 +1,21 @@
 # GitRepublic
+## Your open-source home for your open-source projects.
 
-Our Nostr account: 
-https://nostrudel.ninja/#/u/npub1s3ht77dq4zqnya8vjun5jp3p44pr794ru36d0ltxu65chljw8xjqd975wz
-
-We are putting together a team to provide an open-source, decentralized replacement for GitHub. As even GitLab and self-hosted git are centralized (based upon a particular server or service), we see the need for a truly distributed alternative, that can be used without offering any personal identification, that utilizes an open protocol, and that is censorship-resistent.
-
-Team members are: 
+### Who we are 
 - Product Owner and Dev: [@buttercat1791](https://github.com/buttercat1791)
 - Business Analyst and Validator: [@SilberWitch](https://github.com/silberwitch)
 - DevOps and Dev: [@finrodfelagund97](https://github.com/finrodfelagund97)
 - Dev:[@captain-stacks](https://github.com/captain-stacks)
 
-Jack's initial note:
-https://nostrudel.ninja/#/n/nevent1qqs0yyahm8cg82sv9s5vc4xsce707zl2deqkljesd3c0racqa99xjhspz4mhxue69uhhyetvv9uju6twvamkjefwd4jszynhwden5te0wdskcarfwe4kztn0wfnsygyzxs0cs2mw40xjhfl3a7g24ktpeur54u2mnm6y5z0e6250h7lx5gpsgqqqqqqs49quzz
+### Where we are
+https://nostrudel.ninja/#/u/npub1s3ht77dq4zqnya8vjun5jp3p44pr794ru36d0ltxu65chljw8xjqd975wz
 
-Will's reqs:
-https://nostrudel.ninja/#/n/nevent1qqszy9t8wde0pkqgncw70rp99wxz4uj2f249rjfc7nh2dq0gyvm50wsprpmhxue69uhhyetvv9ujumn0wdmksetjv5hxxmmdqyg8wumn8ghj7mn0wd68ytnhd9hx2q3qxtscya34g58tk0z605fvr788k263gsu6cy9x0mhnm87echrgufzsxpqqqqqqzju49sj
+### What we do
+We have put together a team to provide a replacement for GitHub that:
+- is decentralized and distributed, through the use of git functionality
+- is free and open-source (FOSS)
+- can be used without offering any personal identification
+- utilizes open protocols (Nostr and Lightning Network)
+- can intuitively manage multiple remote repos within one project
+- contains all of the functionality that you need to manage your repos and your projects
+- is censorship-resistent
