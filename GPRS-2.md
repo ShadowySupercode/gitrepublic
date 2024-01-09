@@ -1,6 +1,6 @@
 # GitRepublic Protocol Specification 2: Proposing and Discussing Changes to Third-Party Objects
 
-This specification defines how Nostr events are to be used to propose and discuss changes to signed and versioned third-party objects described by [[GRPS-1]].  Existing NIP standards are used insofar as possible, but new event kinds are defined to avoid cluttering social media feeds.
+This specification defines how Nostr events are to be used to propose and discuss changes to signed and versioned third-party objects described by [GRPS-1](./GPRS-1.md).  Existing NIP standards are used insofar as possible, but new event kinds are defined to avoid cluttering social media feeds.
 
 ## Kind `12001`: Simple Comment
 
