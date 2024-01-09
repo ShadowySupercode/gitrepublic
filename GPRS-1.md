@@ -1,6 +1,6 @@
-# GitRepublic Protocol Specification 1: Signed Third-Party Objects
+# GitRepublic Protocol Specification 1: Signed and Versioned Third-Party Objects
 
-This specification defines a protocol by which Nostr events may be used to sign third-party objects.  With Nostr, the cryptographic identity afforded by an npub/nsec keypair can be used to verify the authenticity of an object accessible via some third-party server or protocol.  Such objects may include, but certainly are not limited to, Git commits, files, and images.  The level of trust a user gives to a given npub may, by extension, be given to third-party objects signed by that npub.
+This specification defines a protocol by which Nostr events may be used to authenticate third-party objects, which may be versioned.  With Nostr, the cryptographic identity afforded by an npub/nsec keypair can be used to attest to the authenticity of an object outside of the Nostr network.  Thus, the level of trust a user gives to a specific npub may be assigned to third-party objects that npub is willing to attest to.  Such objects may include, but certainly are not limited to, Git commits, files, and images.
 
 ## Nostr Event Kind Reservation
 
@@ -14,6 +14,7 @@ An event of  kind `32000` SHALL serve to authenticate an unversioned object host
 - The `r` tag MUST indicate one or more URLs at which the object can be found.
 - The `m` tag MAY be included to indicate the MIME type of the object.
 - The `client` tag, as defined in [NIP-89](https://github.com/nostr-protocol/nips/blob/master/89.md), MAY be included to indicate a preferred client for handling the Nostr event and its associated object.
+- The `hash` tag MUST be used when the object's unique identifier is a hash to indicate the hash method used.
 
 ### Event Format
 
@@ -25,7 +26,8 @@ An event of  kind `32000` SHALL serve to authenticate an unversioned object host
     ["d", <unique identifier>],
     ["r", <comma-separated urls>],
     ["m", <MIME type>],
-    ["client", <name>, <address>, <relay hint>]
+    ["client", <name>, <address>, <relay hint>],
+    ["hash", <hash method>]
   ],
   "content": <arbitrary string>,
   ...
@@ -34,11 +36,12 @@ An event of  kind `32000` SHALL serve to authenticate an unversioned object host
 
 ## Kind `32001`: Versioned Third-Party Object
 
-An event of kind `32001` SHALL serve to authenticate a versioned object hosted by a third-party service (i.e., not a Nostr client or relay).  Events of this kind MUST implement the specification for kind `32000`.  Such events SHALL observe the following rules for version management:
+An event of kind `32001` SHALL serve to authenticate a versioned object hosted by a third-party service (i.e., not a Nostr client or relay).  Events of this kind MUST implement the specification for kind `32000`, along with the following rules:
 
 - The `a` tag MUST reference the kind `32000` or `32001` event that represents the immediately previous version of the object.
-- The `d` tag MUST give as an identifier a hash of the versioned object, so that each version has a unique hash.
-- The initial version of an object SHOULD be represented by a kind `32000` event, and all subsequent versions SHOULD by represented by events of kind `32001`.
+- The `d` tag MUST use as an identifier a hash of the versioned object, so that each version is uniquely identified.
+- The `hash` tag MUST be included to specify the hash method used to produce the object's unique identifier.
+- The initial version of an object SHOULD be represented by a kind `32000` event, and all subsequent versions MUST by represented by events of kind `32001`.
 
 ### Event Format
 
@@ -51,7 +54,8 @@ An event of kind `32001` SHALL serve to authenticate a versioned object hosted b
     ["r", <comma-separated urls>],
     ["a", <event id>, <relay hint>],
     ["m", <MIME type>],
-    ["client", <name>, <address>, <relay hint>]
+    ["client", <name>, <address>, <relay hint>],
+    ["hash", <hash method>]
   ],
   "content": <arbitrary string>,
   ...
@@ -66,4 +70,4 @@ The first instance of any third-party object authenticated with Nostr should be 
 
 When the host location of an object changes, the event can simply be replaced with a new event with the same `d` tag, but updated `r` tags.  Likewise, when an object with a simple ID (i.e., not a hash) is updated in-place, the change may be indicated by replacing the kind `32000` event with a new one that has the same `d` tag but a different `content`.
 
-Version control, such as Git or SVN, may be represented on Nostr using kinds `32000` and `32001`.  In such cases, the `d` tag may be the commit or change ID, and commit details may be included in the `content`.  For a fully version-controlled object, the start of that objects history would be represented by a kind `32000` event, and subsequent changes by a series of kind `32001` events, each representing the previous change.  A complete file history may be constructed from such an event sequence.
+Version control, such as Git or SVN, may be represented on Nostr using kinds `32000` and `32001`.  In such cases, the `d` tag may be the commit or change ID, and commit details may be included in the `content`, though other schemes are certainly conceivable.  For a fully versioned object, the start of that objects history would be represented by a kind `32000` event, and subsequent changes by a series of kind `32001` events, each referring to the previous change.  A complete file history may be constructed from such a sequence.
