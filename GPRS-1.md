@@ -2,10 +2,6 @@
 
 This specification defines a protocol by which Nostr events may be used to authenticate third-party objects, which may be versioned.  With Nostr, the cryptographic identity afforded by an npub/nsec keypair can be used to attest to the authenticity of an object outside of the Nostr network.  Thus, the level of trust a user gives to a specific npub may be assigned to third-party objects that npub is willing to attest to.  Such objects may include, but certainly are not limited to, Git commits, files, and images.
 
-## Nostr Event Kind Reservation
-
-Nostr parameterized replaceable events of kinds in the range `32000 <= n < 32099` MAY be used in relation to third-party object signing.  Where possible, these events adhere to standards proposed by existing Nostr Improvement Possibilities (NIPs).  Nostr clients uninterested in signed third-party objects can simply ignore this kind range to avoid cluttering up their event feeds.
-
 ## Kind `32000`: Simple Third-Party Object
 
 An event of  kind `32000` SHALL serve to authenticate an unversioned object hosted by a third-party service (i.e., not a Nostr client or relay).  The `content` field MAY contain a description of the object or its contents.  The following tags SHALL be used:
