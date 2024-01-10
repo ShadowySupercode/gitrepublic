@@ -1,6 +1,6 @@
 # GitRepublic Protocol Specification 2: Proposing and Discussing Changes to Third-Party Objects
 
-This specification defines how Nostr events are to be used to propose and discuss changes to signed and versioned third-party objects described by [GRPS-1](./GPRS-1.md).  Existing NIP standards are used insofar as possible, but new event kinds are defined to avoid cluttering social media feeds.
+This specification defines how Nostr events are to be used to propose and discuss changes to signed and versioned third-party objects described by [[GRPS-1]].  Existing NIP standards are used insofar as possible, but new event kinds are defined to avoid cluttering social media feeds.
 
 ## Kind `12001`: Simple Comment
 
@@ -9,7 +9,7 @@ An event of kind `12001` SHALL be used to broadcast a comment related to a signe
 - Kind `12001` comments SHOULD only be used as responses to existing events related to authenticating third-party objects.
 - Since kind `12001` is a replaceable event, clients SHOULD support content editing of kind `12001` comments.
 - An `a` tag MUST reference an event of kind `32000`, `32001`, `32023`, or `32084`.
-- An `a` tag MAY reference a kind `12001` event as a preceding comment in a thread.
+- An `e` tag MAY reference a kind `12001` event as a preceding comment in a thread, as defined in [NIP-10](https://github.com/nostr-protocol/nips/blob/master/10.md).
 
 ## Kind `32023`: Change Request
 
