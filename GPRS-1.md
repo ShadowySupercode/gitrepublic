@@ -1,6 +1,6 @@
 # GitRepublic Protocol Specification 1: Signed and Versioned Third-Party Objects
 
-This specification defines a protocol by which Nostr events may be used to authenticate third-party objects, which may be versioned.  With Nostr, the cryptographic identity afforded by an npub/nsec keypair can be used to attest to the authenticity of an object outside of the Nostr network.  Thus, the level of trust a user gives to a specific npub may be assigned to third-party objects that npub is willing to attest to.  Such objects may include, but certainly are not limited to, Git commits, files, and images.
+This specification defines a protocol by which Nostr events may be used to authenticate third-party objects, which may be versioned.  With Nostr, the cryptographic identity afforded by an npub/nsec keypair can be used to attest to the authenticity of an object outside of the Nostr network.  Thus, the level of trust a user gives to a specific npub may be assigned to third-party objects that npub is willing to attest to.  Such objects may include, but certainly are not limited to, Git commits, documents, and images.
 
 ## Kind `32000`: Simple Third-Party Object
 
