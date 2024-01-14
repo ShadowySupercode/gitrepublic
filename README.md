@@ -59,10 +59,6 @@ which gcc; which python; gcc -v; python -V
 ```
 The ouput should point to the version installed this workspace in the `env` folder.
 
-If everything is in order, move to install the Python dependencies.
-```
-pip install -r requirements
-```
 
 ### Seeding the workspace with the required repositories
 
