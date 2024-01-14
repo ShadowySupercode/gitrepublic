@@ -37,7 +37,7 @@ cd GitRepulbic
 
 4. Setup execution permissions properly:
 ```
-chmod +x seed instal.sh
+chmod +x seed install.sh
 ```
 
 5. Execute the `install.sh` script that installs `gcc-13.2.0`, `cmake-3.28.1` and `python3.12.1`
