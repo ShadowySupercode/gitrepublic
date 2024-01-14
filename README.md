@@ -1,7 +1,7 @@
 # GitRepublic
 ## Your open-source home for your open-source projects.
 
-### Who we are 
+### Who we are
 - Product Owner and Dev: [@buttercat1791](https://github.com/buttercat1791)
 - Business Analyst and Validator: [@SilberWitch](https://github.com/silberwitch)
 - DevOps and Dev: [@finrodfelagund97](https://github.com/finrodfelagund97)
