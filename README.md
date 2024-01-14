@@ -48,7 +48,7 @@ to be used as the development environment for this workspace. This might take a 
 
 Now that this is done, it won't be needed for a second time.
 
-To use the installed environment, the `setenv` file must be sourced. Go into this file and uncomment the last lines and follow their insturctions to create an environment variable `$GIT_USERNAME` containing the developer's GitHub username to be taken as a default value by the `seed` script.
+To use the installed environment, the `setenv` file must be sourced. Go into this file and uncomment the last lines and follow their instructions to create an environment variable `$GIT_USERNAME` containing the developer's GitHub username to be taken as a default value by the `seed` script.
 ```
 source setenv
 ```
