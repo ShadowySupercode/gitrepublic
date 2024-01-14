@@ -1,4 +1,33 @@
 #! /bin/bash
+
+Help()
+{
+   # Display Help
+   echo "Install script for the development environment."
+   echo
+   echo "Syntax: ./install.sh [-j|-h]"
+   echo "Example ./install.sh -j <number-of-threads>"
+   echo "Options:"
+   echo "-j     Number of cores to be used during building."
+   echo "-h     Prints this help."
+}
+
+NBTHREADS=""
+
+while getopts ":j:h" option; do
+   case $option in
+      j)
+         NBTHREADS=$OPTARG;;
+      h)
+         Help
+         exit;;
+      \?)
+         echo "Error: Invalid option"
+         exit;;
+   esac
+done
+
+
 mkdir env
 mkdir -p env/gcc
 mkdir -p env/python
@@ -17,7 +46,11 @@ tar xzf gcc-13.2.0.tar.gz
 mkdir objdir
 cd objdir
 ../gcc-13.2.0/configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++
-make -j2
+if [[ "$NBTHREADS" != "" ]]; then
+    make -j $NBTHREADS
+else
+    make
+fi
 make install
 
 cd $WORKSPACE
@@ -39,12 +72,17 @@ curl -O https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
 tar jvzf Python-3.12.1.tar.xz
 cd Python-3.12.1
 ./configure --enable-shared --prefix=$WORKSPACE/env/python
-make -j2
-make test
+if [[ "$NBTHREADS" != "" ]]; then
+    make -j $NBTHREADS
+else
+    make
+fi
 make install
+
+cd $WORKSPACE
+rm -rf $INSTALL_DIR
 
 # installing python dependencies
 export PATH=$WORKSPACE/env/python/bin:$PATH
 export LD_LIBRARY_PATH=/$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH
-
 python -m pip install -r requirements.txt
