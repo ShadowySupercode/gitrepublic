@@ -1,4 +1,4 @@
-#! env/pyenv/bin/python3
+#! env/python/bin/python3
 
 import yaml
 import argparse
