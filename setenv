@@ -1,0 +1,11 @@
+#! /bin/bash
+
+WORKSPACE=$PWD
+
+export PATH=$WORKSPACE/env/gcc/bin:$PATH
+export LD_LIBRARY_PATH=/$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH
+
+export PATH=$PATH:$WORKSPACE/env/cmake/bin
+
+export PATH=$WORKSPACE/env/python/bin:$PATH
+export LD_LIBRARY_PATH=/$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH

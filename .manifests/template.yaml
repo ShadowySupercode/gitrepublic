@@ -1,0 +1,11 @@
+hub: git@github.com
+repositories:
+  repo-name:
+    url: repo-name.git
+    branch: master
+  repo-name:
+    url: repo-name.git
+    branch: master
+  repo-name:
+    url: repo-name.git
+    branch: master

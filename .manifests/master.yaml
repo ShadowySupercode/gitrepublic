@@ -1,0 +1,8 @@
+hub: git@github.com
+repositories:
+  gitrepublic-core:
+    url: gitrepublic-core.git
+    branch: master
+  gitrepublic-cli:
+    url: gitrepublic-cli.git
+    branch: master
