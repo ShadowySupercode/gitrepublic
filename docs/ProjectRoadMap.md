@@ -1,0 +1,45 @@
+# GitCitadel Project Roadmap
+
+- Website 1.0 launch with
+    - tiles:
+        - Nostr SDK page
+        - links to our favorite external apps
+    - Simple blog/long-form interface (read-only with comment link to Nostrudel)
+    - About, Contact, and Donate page(s)
+    - Light/dark mode switch
+- Website 2.0 with
+    - Settings menu, including SSO to platform
+    - Logged-in user display
+    - Replies added to blog
+    - TheLibrary: Publishing and e-reading
+        - long-form notes (chapters) linked together with an index note
+        - highlighter for commenting on passages
+        - replies attached to the index page
+    - Bitcoin graph and calculators/widgets
+    - GitCitadel relay
+        - testing purposes
+        - will contain GitRepublic notes and our own notes
+        - blaster relay
+- Website 3.0 with
+    - Nostr API
+    - GitRepublic
+- Website 4.0 with
+    - TheBeaverLodge: Build your own Kind 01 client
+- Website 5.0 with
+    - TheForum: Client for avid readers
+        - trending list for high-signal, perhaps subscribable over API
+        - ability to adopt other npubs' follow list
+        - smooth flow from Kind 01 to long-form and back
+        - trace-backs for quotes
+        - communities
+- Website 6.0 with
+    - TheFourthEstate: Knowledge base
+    - StoreOfValue: App store
+- Website 7.0 with
+    - enterprise search engine and visualisation
+    - Bitcoin node     
+    - Lightning node
+- Website 8.0 with
+    - SDK interfaces to other languages
+    - HTTP interface
+    - Social media blaster to corporate APIs and other protocols
