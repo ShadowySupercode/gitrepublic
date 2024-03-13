@@ -5,7 +5,10 @@
 - Product Owner and Dev: [@buttercat1791](https://github.com/buttercat1791)
 - Business Analyst and Validator: [@SilberWitch](https://github.com/silberwitch)
 - DevOps and Dev: [@finrodfelagund97](https://github.com/finrodfelagund97)
+
+### Support offered by
 - Dev: [@captain-stacks](https://github.com/captain-stacks)
+- Icon: Jin
 
 ### Where we are
 https://nostrudel.ninja/#/u/npub1s3ht77dq4zqnya8vjun5jp3p44pr794ru36d0ltxu65chljw8xjqd975wz
