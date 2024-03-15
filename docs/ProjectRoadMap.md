@@ -1,14 +1,16 @@
 # GitCitadel Project Roadmap
 
 - Website 1.0 launch with
+    - full mobile support
     - tiles:
-        - Nostr SDK page
+        - NostrTSV SDK page
         - links to our favorite external apps
     - Simple blog/long-form interface (read-only with comment link to Nostrudel)
     - About, Contact, and Donate page(s)
     - Light/dark mode switch
+    - Simple downloads page
 - Website 2.0 with
-    - Settings menu, including SSO to platform
+    - Settings menu, including SSO to platform over existing key keepers (nos2x, Amber, etc.)
     - Logged-in user display
     - Replies added to blog
     - TheLibrary: Publishing and e-reading
@@ -31,10 +33,12 @@
         - ability to adopt other npubs' follow list
         - smooth flow from Kind 01 to long-form and back
         - trace-backs for quotes
+        - highlighter
+        - thread-support with toggle for article-reading view (threads combined into one note)
         - communities
 - Website 6.0 with
     - TheFourthEstate: Knowledge base
-    - StoreOfValue: App store
+    - StoreOfValue: App store (replaces download page)
 - Website 7.0 with
     - enterprise search engine and visualisation
     - Bitcoin node     

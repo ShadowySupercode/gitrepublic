@@ -5,13 +5,16 @@ import argparse
 import typing
 import os
 
+
 class RepoDict(typing.TypedDict):
     url: str
     branch: str
 
+
 class ManifestDict(typing.TypedDict):
     hub: str
     repositories: typing.List[RepoDict]
+
 
 def sync_workspace(manifest: ManifestDict):
     repos = manifest["repositories"]
@@ -22,6 +25,7 @@ def sync_workspace(manifest: ManifestDict):
         os.system(f"git checkout origin/{repos[repo]['branch']}")
         os.chdir(oldpwd)
 
+
 def seed_workspace(user: str, manifest: ManifestDict):
     hub_url = manifest["hub"]
     repos = manifest["repositories"]
@@ -29,6 +33,7 @@ def seed_workspace(user: str, manifest: ManifestDict):
         repo_url = f"{hub_url}:{user}/{repos[repo]['url']}"
         print(f"Cloning repo: {repo_url}")
         os.system(f"git clone -b {repos[repo]['branch']} {repo_url}")
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -51,7 +56,6 @@ def main():
     subparsers.add_parser("init", help="init workspace")
     subparsers.add_parser("sync", help="sync workspace")
 
-
     options = parser.parse_args()
     user = options.user
     manifest_path = options.manifest
@@ -62,6 +66,7 @@ def main():
 
     elif options.command == "sync":
         sync_workspace(manifest)
+
 
 if __name__ == "__main__":
     main()
