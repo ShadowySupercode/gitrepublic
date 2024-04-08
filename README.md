@@ -26,35 +26,35 @@ To install this workspace, please refer to the following steps:
 
 1. Open a terminal window.
 2. Clone this current repository:
-```
+```bash
 git clone <repo-url>
 ```
 
 3. Go into the repository folder:
-```
+```bash
 cd GitRepublic
 ```
 
 4. Setup execution permissions properly:
-```
+```bash
 chmod +x seed install.sh
 ```
 
 5. Execute the `install.sh` script that installs `gcc-13.2.0`, `cmake-3.28.1` and `python3.12.1`
 to be used as the development environment for this workspace. This might take a while, around an hour. If your CPU has many cores, don't hesitate to use the `-j` option to accelerate the build of the development environment. **CHECK** how many cores your CPU has before puttng a high value for the `-j` option. For example
-```
+```bash
 ./install.sh -j 4
 ```
 
 Now that this is done, it won't be needed for a second time.
 
 To use the installed environment, the `setenv` file must be sourced. Go into this file and uncomment the last lines and follow their instructions to create an environment variable `$GIT_USERNAME` containing the developer's GitHub username to be taken as a default value by the `seed` script.
-```
+```bash
 source setenv
 ```
 
 To verify that the proper environment has been set, execute the following commands:
-```
+```bash
 which gcc; which python; gcc -v; python -V
 ```
 The ouput should point to the version installed this workspace in the `env` folder.
@@ -62,16 +62,16 @@ The ouput should point to the version installed this workspace in the `env` fold
 
 ### Seeding the workspace with the required repositories
 
-Once the development environment and dependencies have been properly installed, the required repos must be cloned to populate the workspace with its components. These repos are defined in the manifest file and the default file is the master manifest found in `.manifests/master.yaml`. Anyone can define their own manifest.
+First, `vcstool` must be installed on your system. This is a tool that helps managing projects with mulitple repos. To install it, run the command:
+
+```bash
+pip3 install vcstool
+```
+
+Once this has been installed, the required repos must be cloned to populate the workspace with its components. These repos are defined in the manifest file and the default file is the master manifest found in `.manifests/master.yaml`. Anyone can define their own manifest.
 
 Seed the workspace by executing this command in the terminal:
 
-```
-./seed init --manifest .manifests/master.yaml
-```
-
-If there is already a seeded workspace that may be outdated, it could be synced  with a specific manifest by executing the following command:
-
-```
-./seed sync --manfiest .manifests/master.yaml
+```bash
+vcstool import < .manifests/master.yaml
 ```
