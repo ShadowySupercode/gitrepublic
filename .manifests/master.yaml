@@ -1,8 +1,11 @@
-hub: git@github.com
+---
 repositories:
   gitrepublic-core:
-    url: gitrepublic-core.git
-    branch: master
+    type: git
+    url: git@github.com:finrodfelagund97/gitrepublic-core.git
+    version: master
   gitrepublic-cli:
-    url: gitrepublic-cli.git
-    branch: master
+    type: git
+    url: git@github.com:finrodfelagund97/gitrepublic-cli.git
+    version: master
+
