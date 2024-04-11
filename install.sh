@@ -105,6 +105,21 @@ if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
     make install
 fi
 
+# ================ INSTALLING NINJA ================
+if [[ -z $(ls -A "${WORKSPACE}/env/ninja") ]]; then
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-mac.zip
+        unzip ninja-mac.zip
+        rm ninja-mac.zip
+        mv ninja $WORKSPACE/env/ninja/bin
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
+        unzip ninja-linux.zip
+        rm ninja-linux.zip
+        mv ninja $WORKSPACE/env/ninja/bin
+    fi
+fi
 echo "Environment installation is finished"
 cd $WORKSPACE
 rm -rf $INSTALL_DIR
