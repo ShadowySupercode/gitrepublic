@@ -1,14 +1,14 @@
 #! /bin/bash
 
-WORKSPACE=$PWD
+WORKSPACE=$(dirname $(readling -f ${0}))
 
+# point to workspace GCC
 export PATH=$WORKSPACE/env/gcc/bin:$PATH
 export LD_LIBRARY_PATH=/$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH
 
+# point to workspace CMake
 export PATH=$PATH:$WORKSPACE/env/cmake/bin
 
+# point to workspace Python3
 export PATH=$WORKSPACE/env/python/bin:$PATH
 export LD_LIBRARY_PATH=/$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH
-
-# Uncomment this line below and fill up your proper username so that seed can use it as the default value
-# export GIT_USERNAME=<YOUR GIT USERNAME>
