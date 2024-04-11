@@ -12,3 +12,6 @@ export PATH=$PATH:$WORKSPACE/env/cmake/bin
 # point to workspace Python3
 export PATH=$WORKSPACE/env/python/bin:$PATH
 export LD_LIBRARY_PATH=/$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH
+
+# point to workspace ninja
+export PATH=$WORKSPACE/env/ninja/bin:$PATH
