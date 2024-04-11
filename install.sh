@@ -2,6 +2,12 @@
 
 set -eux
 
+function _on_exit {
+    echo "Script ended"
+}
+
+trap _on_exit EXIT
+
 Help()
 {
    # Display Help
@@ -34,66 +40,71 @@ while getopts ":j:h" option; do
    esac
 done
 
-# ================ CREATING ENV DIRECTORIES ================
-mkdir env
+
+mkdir -p env
 mkdir -p env/gcc
 mkdir -p env/python
+mkdir -p env/ninja/bin
 
-WORKSPACE=$PWD
+WORKSPACE=$(dirname $(readlink -f ${0}))q
+INSTALL_DIR=$(mktemp -d)
+cd $INSTALL_DIR
 
 # ================ INSTALLING GCC ================
-INSTALL_DIR=$(mktemp -d)
-cd $INSTALL_DIR
 
-curl -O https://ftp.gwdg.de/pub/misc/gcc/releases/gcc-13.2.0/gcc-13.2.0.tar.gz
+# check if gcc is empty, if not, do nothing.
+if [[ -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
+    wget https://ftp.gwdg.de/pub/misc/gcc/releases/gcc-13.2.0/gcc-13.2.0.tar.gz
 
-tar xzf gcc-13.2.0.tar.gz
+    tar -vxzf ./gcc-13.2.0.tar.gz
+    cd  ./gcc-13.2.0
+    ./contrib/download_prerequisites
+    mkdir objdir
+    cd objdir
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        ../configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++ --with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        ../configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++
+    fi
 
-cd gcc-13.2.0
-./contrib/download_prerequisites
-
-cd ..
-mkdir objdir
-cd objdir
-../gcc-13.2.0/configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++
-if [[ "$NBTHREADS" != "" ]]; then 
-  make -j $NBTHREADS
-else
-  make
+    if [[ "$NBTHREADS" != "" ]]; then
+        make -j $NBTHREADS
+    else
+        make
+    fi
+    make install
 fi
-make install
-rm -rf ../gcc-13.2.0
-cd $WORKSPACE
-rm -rf $INSTALL_DIR
-
 # ================ INSTALLING CMAKE ================
-cd $WORKSPACE
-curl -O https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-linux-x86_64.tar.gz
-tar -xzf cmake-3.28.1-linux-x86_64.tar.gz
-rm -rf cmake-3.28.1-linux-x86_64.tar.gz
-mv cmake-3.28.1-linux-x86_64 env/cmake # rename to cmake
+if [[ -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
+
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        wget https://github.com/Kitware/CMake/releases/download/v3.29.1/cmake-3.29.1-linux-x86_64.tar.gz
+        tar -vxzf cmake-3.29.1-linux-x86_64.tar.gz
+        rm -rf cmake-3.29.1-linux-x86_64.tar.gz
+        mv cmake-3.29.1-linux-x86_64 "${WORKSPACE}/env/cmake" # rename to cmake
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        wget https://github.com/Kitware/CMake/releases/download/v3.29.1/cmake-3.29.1-macos10.10-universal.tar.gz
+        tar -vxzf cmake-3.29.1-macos10.10-universal.tar.gz
+        rm -rf cmake-3.29.1-macos10.10-universal.tar.gz
+        mv cmake-3.29.1-macos10.10-universal "${WORKSPACE}/env/cmake" # rename to cmake
+    fi
+fi
 
 # ================ INSTALLING PYTHON ================
-INSTALL_DIR=$(mktemp -d)
-cd $INSTALL_DIR
+if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
+    wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
 
-curl -O https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
-
-tar -xvf Python-3.12.1.tar.xz
-cd Python-3.12.1
-./configure --enable-shared --prefix=$WORKSPACE/env/python
-if [[ "$NBTHREADS" != "" ]]; then
-    make -j $NBTHREADS
-else
-    make
+    tar -vxzf Python-3.12.1.tar.xz
+    cd Python-3.12.1
+    ./configure --enable-shared --prefix=$WORKSPACE/env/python
+    if [[ "$NBTHREADS" != "" ]]; then
+        make -j $NBTHREADS
+    else
+        make
+    fi
+    make install
 fi
-make install
 
+echo "Environment installation is finished"
 cd $WORKSPACE
 rm -rf $INSTALL_DIR
-
-# ================ INSTALLING PYTHON DEPENDENCIES ================
-export PATH=$WORKSPACE/env/python/bin:$PATH
-export LD_LIBRARY_PATH=/$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH
-python3 -m ensurepip
-python3 -m pip install -r requirements.txt

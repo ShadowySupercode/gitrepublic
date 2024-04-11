@@ -20,8 +20,13 @@ We have put together a team to provide a replacement for GitHub that:
 - contains all of the functionality that you need to manage your repos and your projects
 - is censorship-resistent
 
-## Workspace Installation Instructions
-### Initializing the development environment
+# Workspace Installation Instructions
+## Initializing the development environment
+For this project, a developer only needs to start with a GNU GCC compiler and a Python interpreter and the CMake build system installed properly on your machine.
+
+If you are on macOS or Linux, we have a provided a series of step to ensure you have a working installation
+of these tools listed above.
+
 To install this workspace, please refer to the following steps:
 
 1. Open a terminal window.
@@ -32,46 +37,59 @@ git clone <repo-url>
 
 3. Go into the repository folder:
 ```bash
-cd GitRepublic
+cd GitRepulbic
 ```
 
 4. Setup execution permissions properly:
 ```bash
-chmod +x seed install.sh
+chmod +x install.sh
 ```
 
-5. Execute the `install.sh` script that installs `gcc-13.2.0`, `cmake-3.28.1` and `python3.12.1`
-to be used as the development environment for this workspace. This might take a while, around an hour. If your CPU has many cores, don't hesitate to use the `-j` option to accelerate the build of the development environment. **CHECK** how many cores your CPU has before puttng a high value for the `-j` option. For example
+5. Execute the `install.sh` script that installs `gcc-13.2.0`, `cmake-3.29.1` and `python3.12.1`
+to be used as the development environment for this workspace. This might take a while, depending on the speed of your processor. If your CPU has many cores, don't hesitate to use the `-j` option to accelerate the build of the development environment. **CHECK** how many cores your CPU has before puttng a high value for the `-j` option. For example:
 ```bash
 ./install.sh -j 4
 ```
 
 Now that this is done, it won't be needed for a second time.
 
-To use the installed environment, the `setenv` file must be sourced. Go into this file and uncomment the last lines and follow their instructions to create an environment variable `$GIT_USERNAME` containing the developer's GitHub username to be taken as a default value by the `seed` script.
+To use the installed environment, the `setenv` file must be sourced:
 ```bash
 source setenv
 ```
 
-To verify that the proper environment has been set, execute the following commands:
+To check if the envrionment has been properly set up, execute this following command:
+```bash
+printenv
+```
+In the printed output, check that the current envrionment is present in the variables `$PATH` and `$LD_LIBRARY_PATH`
+
+Also, execute the following commands to verify the versions of the tools:
 ```bash
 which gcc; which python; gcc -v; python -V
 ```
-The ouput should point to the version installed this workspace in the `env` folder.
+The ouput should point to the version installed in this workspace in the `env` folder.
 
 
-### Seeding the workspace with the required repositories
+## Seeding the workspace with the required repositories
 
-First, `vcstool` must be installed on your system. This is a tool that helps managing projects with mulitple repos. To install it, run the command:
+Once the development environment and dependencies have been properly installed, the required repos must be cloned to populate the workspace with its components. These repos are defined in the manifest file and the default file is the master manifest found in `.manifests/master.yaml` that tracks the master branches of all the required repos. Anyone can define their own manifest detailing their own versions of each required repo.
 
+To install `vcstool`, simply install it using `pip`:
 ```bash
 pip3 install vcstool
 ```
 
-Once this has been installed, the required repos must be cloned to populate the workspace with its components. These repos are defined in the manifest file and the default file is the master manifest found in `.manifests/master.yaml`. Anyone can define their own manifest.
-
-Seed the workspace by executing this command in the terminal:
+Once `vcstool` has been installed, seed the workspace by executing this command in the terminal:
 
 ```bash
-vcstool import < .manifests/master.yaml
+vcstool import < .manifests/master.yaml # or use any other manifest
 ```
+
+## Build GitRepublic
+To build GitRepublic, we shall be using `vcpkg` and `cmake` for building and managing library dependencies, packaging, etc.
+
+`vcpkg` will be cloned in the workspace of `GitRepublic`.
+
+So far, there isn't a build script at the level of GitRepublic that builds the whole project, yet.
+For now, each submodule must be build individually according to its own build instructions.
