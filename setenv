@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORKSPACE=$(dirname $(readling -f ${0}))
+WORKSPACE=$(dirname $(readlink -f ${0}))
 
 # point to workspace GCC
 export PATH="$WORKSPACE/env/gcc/bin:$PATH"
@@ -9,7 +9,7 @@ export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH"
 # point to workspace CMake
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     export PATH="$PATH:$WORKSPACE/env/cmake/bin"
-elif [[ "$OSTYPE" == "darwing"* ]];
+elif [[ "$OSTYPE" == "darwing"* ]]; then
     export PATH="$PATH:$WORKSPACE/env/cmake/CMake.app/Contents/bin"
 fi
 
