@@ -20,10 +20,6 @@ Help()
    echo "-h     Prints this help."
 }
 
-# ================ INSTALLING DEPENDENCIES ================
-sudo apt-get install -y git
-sudo apt-get install -y curl
-
 # ================ HANDLING OPTIONS ================
 NBTHREADS=""
 
@@ -46,7 +42,7 @@ mkdir -p env/gcc
 mkdir -p env/python
 mkdir -p env/ninja/bin
 
-WORKSPACE=$(dirname $(readlink -f ${0}))q
+WORKSPACE=$(dirname $(readlink -f ${0}))
 INSTALL_DIR=$(mktemp -d)
 cd $INSTALL_DIR
 
@@ -73,6 +69,8 @@ if [[ -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
         make
     fi
     make install
+else
+    echo "gcc is already installed"
 fi
 # ================ INSTALLING CMAKE ================
 if [[ -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
@@ -88,6 +86,8 @@ if [[ -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
         rm -rf cmake-3.29.1-macos10.10-universal.tar.gz
         mv cmake-3.29.1-macos10.10-universal "${WORKSPACE}/env/cmake" # rename to cmake
     fi
+else
+    echo "CMake is already installed"
 fi
 
 # ================ INSTALLING PYTHON ================
@@ -103,6 +103,8 @@ if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
         make
     fi
     make install
+else
+    echo "Python is already installed"
 fi
 
 # ================ INSTALLING NINJA ================
@@ -119,7 +121,10 @@ if [[ -z $(ls -A "${WORKSPACE}/env/ninja") ]]; then
         rm ninja-linux.zip
         mv ninja $WORKSPACE/env/ninja/bin
     fi
+else
+    echo "Ninja is already installed"
 fi
+
 echo "Environment installation is finished"
 cd $WORKSPACE
 rm -rf $INSTALL_DIR
