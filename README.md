@@ -27,6 +27,8 @@ For this project, a developer only needs to start with a GNU GCC compiler and a 
 If you are on macOS or Linux, we have a provided a series of step to ensure you have a working installation
 of these tools listed above.
 
+First of all, make sure the following tools are installed on your system: `git`, `wget` and `build-essential` if you're on Linux, or `Xcode Command Line tools` if you're on macOS.
+
 To install this workspace, please refer to the following steps:
 
 1. Open a terminal window.
