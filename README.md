@@ -82,10 +82,26 @@ To install `vcstool`, simply install it using `pip`:
 pip3 install vcstool
 ```
 
+What's recommended though is to create a virtual environment inside `GitRepublic`.
+
+```bash
+./pythonenv.sh # creates a virtual environment only if no environment exists yet.
+```
+
+Remember to activate the virtual environment by sourcing the file `.venv/bin/activate`
+```bash
+source .venv/bin/activate
+```
+
+To deactivate the virtual environment, in a shell where it is activated, execute this command:
+```bash
+deactivate
+```
+
 Once `vcstool` has been installed, seed the workspace by executing this command in the terminal:
 
 ```bash
-vcstool import < .manifests/master.yaml # or use any other manifest
+vcs import < .manifests/master.yaml | vcstool import < .manifest/master.yaml # or use any other manifest
 ```
 
 ## Build GitRepublic
