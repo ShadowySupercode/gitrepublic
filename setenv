@@ -1,15 +1,71 @@
 #! /bin/bash
 
-WORKSPACE=$(dirname $(readlink -f ${0}))
+export WORKSPACE=$(dirname $(readlink -f ${0}))
+export ENV="$WORKSPACE/env"
+
+export OLD_PATH=$PATH
+export OLD_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+export OLD_PS1=$PS1
+export OLD_CC=$CC
+export OLD_CXX=$CXX
+export OLD_VCPKG_ROOT=$VCPKG_ROOT
+
+unsetenv() {
+    # reset old environment variables
+    if [[ -n "$OLD_PATH" ]]; then
+        export PATH="$OLD_PATH"
+        unset OLD_PATH
+    fi
+    if [[ -n "$OLD_LD_LIBRARY_PATH" ]]; then
+        export LD_LIBRARY_PATH=$OLD_LD_LIBRARY_PATH
+        unset OLD_LD_LIBRARY_PATH
+    fi
+
+    if [[ -n "$OLD_CC" ]]; then
+        export CC=$OLD_CC
+        unset OLD_CC
+    else
+        unset CC
+    fi
+
+    if [[ -n "$OLD_CXX" ]]; then
+        export CXX=$OLD_CXX
+        unset OLD_CXX
+    else
+        unset CXX
+    fi
+
+    if [[ -n "$OLD_VCPKG_ROOT" ]]; then
+        export VCPKG_ROOT=$OLD_VCPKG_ROOT
+        unset OLD_VCPKG_ROOT
+    fi
+
+    # Call hash to forget past commands. Without forgetting
+    # past commands the $PATH changes we made may not be respected
+    hash -r 2> /dev/null
+
+    if [[ -n "$OLD_PS1" ]]; then
+        export PS1=$OLD_PS1
+        unset OLD_PS1
+    fi
+}
 
 # point to workspace GCC
 export PATH="$WORKSPACE/env/gcc/bin:$PATH"
 export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH"
 
+# set default path C/C++ compiler to point to new gcc compiler
+export CC="$WORKSPACE/env/gcc/bin/gcc"
+export CXX="$WORKSPACE/env/gcc/bin/g++"
+
+#  set environment variables for
+export VCPKG_ROOT="$WORKSPACE/vcpkg"
+export PATH="$VCPKG_ROOT:$PATH"
+
 # point to workspace CMake
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     export PATH="$PATH:$WORKSPACE/env/cmake/bin"
-elif [[ "$OSTYPE" == "darwing"* ]]; then
+elif [[ "$OSTYPE" == "darwin"* ]]; then
     export PATH="$PATH:$WORKSPACE/env/cmake/CMake.app/Contents/bin"
 fi
 
@@ -22,9 +78,10 @@ export PATH="$WORKSPACE/env/ninja/bin:$PATH"
 
 if [[ -z $(ls -A "${WORKSPACE}/.venv/") ]]; then
     echo "WARNING: No python virtual environment has been detected."
+    echo "Please create one using by executing `pythonenv.sh`"
     echo "Local workspace packages may not be detected by the python interpreter"
 else
     echo "Activating virtual python environment"
     source "${WORKSPACE}/.venv/bin/activate"
-    pip3 install -r requirements.txt
+    pip3 install -r ${WORKSPACE}/requirements.txt
 fi
