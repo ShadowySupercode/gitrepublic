@@ -38,9 +38,6 @@ done
 
 
 mkdir -p env
-mkdir -p env/gcc
-mkdir -p env/python
-mkdir -p env/ninja/bin
 
 WORKSPACE=$(dirname $(readlink -f ${0}))
 INSTALL_DIR=$(mktemp -d)
@@ -50,10 +47,10 @@ cd $INSTALL_DIR
 
 # check if gcc is empty, if not, do nothing.
 if [[ -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
+    mkdir -p "${WORKSPACE}/env/gcc"
     wget https://ftp.gwdg.de/pub/misc/gcc/releases/gcc-13.2.0/gcc-13.2.0.tar.gz
-
     tar -vxzf ./gcc-13.2.0.tar.gz
-    cd  ./gcc-13.2.0
+    cd ./gcc-13.2.0
     ./contrib/download_prerequisites
     mkdir objdir
     cd objdir
@@ -74,7 +71,6 @@ else
 fi
 # ================ INSTALLING CMAKE ================
 if [[ -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
-
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         wget https://github.com/Kitware/CMake/releases/download/v3.29.1/cmake-3.29.1-linux-x86_64.tar.gz
         tar -vxzf cmake-3.29.1-linux-x86_64.tar.gz
@@ -92,6 +88,7 @@ fi
 
 # ================ INSTALLING PYTHON ================
 if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
+    mkdir -p "${WORKSPACE}/env/python"
     wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
 
     tar -vxzf Python-3.12.1.tar.xz
@@ -109,7 +106,7 @@ fi
 
 # ================ INSTALLING NINJA ================
 if [[ -z $(ls -A "${WORKSPACE}/env/ninja") ]]; then
-
+    mkdir -p "${WORKSPACE}/env/ninja/bin"
     if [[ "$OSTYPE" == "darwin"* ]]; then
         wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-mac.zip
         unzip ninja-mac.zip
