@@ -50,31 +50,47 @@ unsetenv() {
     fi
 }
 
-# point to workspace GCC
-export PATH="$WORKSPACE/env/gcc/bin:$PATH"
-export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH"
+# point to workspace GCC if it exists in workspace
+if [[ ! -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
+    export PATH="$WORKSPACE/env/gcc/bin:$PATH"
+    export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH"
 
-# set default path C/C++ compiler to point to new gcc compiler
-export CC="$WORKSPACE/env/gcc/bin/gcc"
-export CXX="$WORKSPACE/env/gcc/bin/g++"
+    # set default path C/C++ compiler to point to new gcc compiler
+    export CC="$WORKSPACE/env/gcc/bin/gcc"
+    export CXX="$WORKSPACE/env/gcc/bin/g++"
+else
+    echo "Warning. No gcc detected in current workspace. No environment variable will be modified"
+fi
 
 #  set environment variables for
 export VCPKG_ROOT="$WORKSPACE/vcpkg"
 export PATH="$VCPKG_ROOT:$PATH"
 
-# point to workspace CMake
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    export PATH="$PATH:$WORKSPACE/env/cmake/bin"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    export PATH="$PATH:$WORKSPACE/env/cmake/CMake.app/Contents/bin"
+if [[ ! -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
+    # point to workspace CMake
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        export PATH="$PATH:$WORKSPACE/env/cmake/bin"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        export PATH="$PATH:$WORKSPACE/env/cmake/CMake.app/Contents/bin"
+    fi
+else
+    echo "Warning. No cmake detected in current workspace. No environment variable will be modified"
 fi
 
-# point to workspace Python3
-export PATH="$WORKSPACE/env/python/bin:$PATH"
-export LD_LIBRARY_PATH="$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH"
+if [[ ! -z $(ls -A "${WORKSPACE}/env/python") ]]; then
+    # point to workspace Python3
+    export PATH="$WORKSPACE/env/python/bin:$PATH"
+    export LD_LIBRARY_PATH="$WORKSPACE/env/python/lib:$LD_LIBRARY_PATH"
+else
+    echo "Warning. No python detected in current workspace. No environment variable will be modified"
+fi
 
-# point to workspace ninja
-export PATH="$WORKSPACE/env/ninja/bin:$PATH"
+if [[ ! -z $(ls -A "${WORKSPACE}/env/ninja") ]]; then
+    # point to workspace ninja
+    export PATH="$WORKSPACE/env/ninja/bin:$PATH"
+else
+    echo "Warning. No ninja detected in current workspace. No environment variable will be modified"
+fi
 
 if [[ -z $(ls -A "${WORKSPACE}/.venv/") ]]; then
     echo "WARNING: No python virtual environment has been detected."
