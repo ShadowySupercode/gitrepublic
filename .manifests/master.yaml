@@ -8,6 +8,10 @@ repositories:
     type: git
     url: git@github.com:finrodfelagund97/gitrepublic-cli.git
     version: master
+  uuid_v4:
+    type: git
+    url: git@github.com:crashoz/uuid_v4.git
+    version: master
   NostrSDK:
     type: git
     url: git@github.com:finrodfelagund97/NostrSDK.git
