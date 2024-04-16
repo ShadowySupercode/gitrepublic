@@ -57,7 +57,7 @@ if [[ -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
         ../configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++ --with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        ../configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++
+        ../configure --prefix=$WORKSPACE/env/gcc --enable-languages=c,c++ --disable-multilib
     fi
 
     if [[ "$NBTHREADS" != "" ]]; then
