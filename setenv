@@ -99,10 +99,10 @@ fi
 
 if [[ -z $(ls -A "${WORKSPACE}/.venv/") ]]; then
     echo "WARNING: No python virtual environment has been detected."
-    echo "Please create one using by executing `pythonenv.sh`"
-    echo "Local workspace packages may not be detected by the python interpreter"
-else
-    echo "Activating virtual python environment"
-    source "${WORKSPACE}/.venv/bin/activate"
-    pip3 install -r ${WORKSPACE}/requirements.txt
+    echo "A virtual environment will be created by executing `pythonenv.sh`"
+    /bin/bash $WOKSPACE/pythonenv.sh
 fi
+
+echo "Activating virtual python environment"
+source "${WORKSPACE}/.venv/bin/activate"
+pip3 install -r ${WORKSPACE}/requirements.txt
