@@ -14,46 +14,51 @@ unsetenv() {
     # reset old environment variables
     if [[ -n "$OLD_PATH" ]]; then
         export PATH="$OLD_PATH"
-        unset OLD_PATH
     fi
+    unset OLD_PATH
     if [[ -n "$OLD_LD_LIBRARY_PATH" ]]; then
         export LD_LIBRARY_PATH=$OLD_LD_LIBRARY_PATH
-        unset OLD_LD_LIBRARY_PATH
+    else
+        unset LD_LIBRARY_PATH
     fi
+    unset OLD_LD_LIBRARY_PATH
 
     if [[ -n "$OLD_CC" ]]; then
         export CC=$OLD_CC
-        unset OLD_CC
     else
         unset CC
     fi
+    unset OLD_CC
 
     if [[ -n "$OLD_CXX" ]]; then
         export CXX=$OLD_CXX
-        unset OLD_CXX
     else
         unset CXX
     fi
+    unset OLD_CXX
 
     if [[ -n "$OLD_VCPKG_ROOT" ]]; then
         export VCPKG_ROOT=$OLD_VCPKG_ROOT
-        unset OLD_VCPKG_ROOT
     fi
-
+    unset OLD_VCPKG_ROOT
     # Call hash to forget past commands. Without forgetting
     # past commands the $PATH changes we made may not be respected
     hash -r 2> /dev/null
 
     if [[ -n "$OLD_PS1" ]]; then
         export PS1=$OLD_PS1
-        unset OLD_PS1
     fi
+    unset OLD_PS1
 }
 
 # point to workspace GCC if it exists in workspace
 if [[ ! -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
     export PATH="$WORKSPACE/env/gcc/bin:$PATH"
-    export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$LD_LIBRARY_PATH"
+    if [[ ! -z $LD_LIBRARY_PATH ]]; then
+      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WOKSPACE/env/gcc/lib64:$LD_LIBRARY_PATH"
+    else
+      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WOKSPACE/env/gcc/lib64"
+    fi
 
     # set default path C/C++ compiler to point to new gcc compiler
     export CC="$WORKSPACE/env/gcc/bin/gcc"
@@ -69,9 +74,9 @@ export PATH="$VCPKG_ROOT:$PATH"
 if [[ ! -z $(ls -A "${WORKSPACE}/env/cmake") ]]; then
     # point to workspace CMake
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        export PATH="$PATH:$WORKSPACE/env/cmake/bin"
+        export PATH="$WORKSPACE/env/cmake/bin:$PATH"
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-        export PATH="$PATH:$WORKSPACE/env/cmake/CMake.app/Contents/bin"
+        export PATH="$WORKSPACE/env/cmake/CMake.app/Contents/bin:$PATH"
     fi
 else
     echo "Warning. No cmake detected in current workspace. No environment variable will be modified"
