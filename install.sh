@@ -91,7 +91,7 @@ if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
     mkdir -p "${WORKSPACE}/env/python"
     wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
 
-    tar -vxzf Python-3.12.1.tar.xz
+    tar -vxf Python-3.12.1.tar.xz
     cd Python-3.12.1
     ./configure --enable-shared --prefix=$WORKSPACE/env/python
     if [[ "$NBTHREADS" != "" ]]; then
