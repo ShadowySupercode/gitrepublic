@@ -87,13 +87,31 @@ else
 fi
 
 # ================ INSTALLING PYTHON ================
+if [[ -z $(ls -A "${WORKSPACE}/env/openssl") ]]; then
+    mkdir -p "${WORKSPACE}/env/openssl"
+    wget https://www.openssl.org/source/openssl-3.3.0.tar.gz
+
+    tar -vxf openssl-3.3.0.tar.gz
+    cd openssl-3.3.0
+    ./Configure --prefix=$WORKSPACE/env/openssl --openssldir=$WORKSPACE/env/openssl no-ssl2 
+    if [[ "$NBTHREADS" != "" ]]; then
+        make -j $NBTHREADS
+    else
+        make
+    fi
+    make install
+else
+    echo "OpenSSL is already installed"
+fi
+
+# ================ INSTALLING PYTHON ================
 if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
     mkdir -p "${WORKSPACE}/env/python"
     wget https://www.python.org/ftp/python/3.12.1/Python-3.12.1.tar.xz
 
     tar -vxf Python-3.12.1.tar.xz
     cd Python-3.12.1
-    ./configure --enable-shared --prefix=$WORKSPACE/env/python
+    LDFLAGS="-L $WORKSPACE/env/openssl/lib -Wl,-rpath,$WORKSPACE/env/openssl/lib" ./configure --with-openssl=$WORKSPACE/env/openssl --enable-shared --prefix=$WORKSPACE/env/python
     if [[ "$NBTHREADS" != "" ]]; then
         make -j $NBTHREADS
     else

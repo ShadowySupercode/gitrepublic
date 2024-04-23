@@ -1,10 +1,12 @@
 #! /bin/bash
 
-export WORKSPACE=$(dirname $(readlink -f ${0}))
+export WORKSPACE=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 export ENV="$WORKSPACE/env"
 
 export OLD_PATH=$PATH
 export OLD_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+export OLD_LC_ALL=$LC_ALL
+export OLD_LDFLAGS=$LDFLAGS
 export OLD_PS1=$PS1
 export OLD_CC=$CC
 export OLD_CXX=$CXX
@@ -23,6 +25,14 @@ unsetenv() {
     fi
     unset OLD_LD_LIBRARY_PATH
 
+    if [[ -n "$OLD_LC_ALL" ]]; then
+        export LC_ALL="$OLD_LC_ALL"
+    else
+        unset LC_ALL
+    fi
+    unset OLD_LC_ALL
+
+
     if [[ -n "$OLD_CC" ]]; then
         export CC=$OLD_CC
     else
@@ -36,6 +46,13 @@ unsetenv() {
         unset CXX
     fi
     unset OLD_CXX
+
+    if [[ -n "$OLD_LDFLAGS" ]]; then
+        export LDFLAGS=$OLD_LDFLAGS
+    else
+        unset LDFLAGS
+    fi
+    unset OLD_LDFLAGS
 
     if [[ -n "$OLD_VCPKG_ROOT" ]]; then
         export VCPKG_ROOT=$OLD_VCPKG_ROOT
@@ -55,9 +72,9 @@ unsetenv() {
 if [[ ! -z $(ls -A "${WORKSPACE}/env/gcc") ]]; then
     export PATH="$WORKSPACE/env/gcc/bin:$PATH"
     if [[ ! -z $LD_LIBRARY_PATH ]]; then
-      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WOKSPACE/env/gcc/lib64:$LD_LIBRARY_PATH"
+      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WORKSPACE/env/gcc/lib64:$LD_LIBRARY_PATH"
     else
-      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WOKSPACE/env/gcc/lib64"
+      export LD_LIBRARY_PATH="$WORKSPACE/env/gcc/lib:$WORKSPACE/env/gcc/lib64"
     fi
 
     # set default path C/C++ compiler to point to new gcc compiler
@@ -82,6 +99,19 @@ else
     echo "Warning. No cmake detected in current workspace. No environment variable will be modified"
 fi
 
+if [[ ! -z $(ls -A "${WORKSPACE}/env/openssl") ]]; then
+    # point to workspace openssl
+    export PATH="$WORKSPACE/env/openssl/bin:$PATH"
+    if [[ ! -z $LD_LIBRARY_PATH ]]; then
+        export LD_LIBRARY_PATH="$WORKSPACE/env/openssl/lib:$WORKSPACE/env/openssl/lib64:$LD_LIBRARY_PATH"
+    else
+        export LD_LIBRARY_PATH="$WORKSPACE/env/openssl/lib:$WORKSPACE/env/openssl/lib64"
+    fi
+    export LC_ALL="en_US.UTF-8"
+    export LDFLAGS="-L $WORKSPACE/env/openssl/lib -Wl,-rpath,$WORKSPACE/env/openssl/lib"
+fi
+
+
 if [[ ! -z $(ls -A "${WORKSPACE}/env/python") ]]; then
     # point to workspace Python3
     export PATH="$WORKSPACE/env/python/bin:$PATH"
@@ -100,7 +130,7 @@ fi
 if [[ -z $(ls -A "${WORKSPACE}/.venv/") ]]; then
     echo "WARNING: No python virtual environment has been detected."
     echo "A virtual environment will be created by executing `pythonenv.sh`"
-    /bin/bash $WOKSPACE/pythonenv.sh
+    /bin/bash $WORKSPACE/pythonenv.sh
 fi
 
 echo "Activating virtual python environment"
