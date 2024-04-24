@@ -86,14 +86,14 @@ else
     echo "CMake is already installed"
 fi
 
-# ================ INSTALLING PYTHON ================
+# ================ INSTALLING OPENSSL ================
 if [[ -z $(ls -A "${WORKSPACE}/env/openssl") ]]; then
     mkdir -p "${WORKSPACE}/env/openssl"
     wget https://www.openssl.org/source/openssl-3.3.0.tar.gz
 
     tar -vxf openssl-3.3.0.tar.gz
     cd openssl-3.3.0
-    ./Configure --prefix=$WORKSPACE/env/openssl --openssldir=$WORKSPACE/env/openssl no-ssl2 
+    ./Configure --prefix=$WORKSPACE/env/openssl --openssldir=$WORKSPACE/env/openssl no-ssl2
     if [[ "$NBTHREADS" != "" ]]; then
         make -j $NBTHREADS
     else

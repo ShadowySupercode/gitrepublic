@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORKSPACE=$(dirname $(readlink -f ${0}))
+export WORKSPACE=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 # if there is no python vir
 if [[ -z $(ls -A "${WORKSPACE}/.venv/") ]]; then
