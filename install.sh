@@ -89,10 +89,22 @@ fi
 # ================ INSTALLING OPENSSL ================
 if [[ -z $(ls -A "${WORKSPACE}/env/openssl") ]]; then
     mkdir -p "${WORKSPACE}/env/openssl"
-    wget https://www.openssl.org/source/openssl-3.3.0.tar.gz
 
-    tar -vxf openssl-3.3.0.tar.gz
-    cd openssl-3.3.0
+    # determine which version of openssl to install
+    version=$(openssl version | sed 's/^[^[:space:]]* //' | sed 's/ .*//')
+    
+    if [[ "${version}" == "3.0"* ]]; then
+      wget https://www.openssl.org/source/old/3.0/openssl-${version}.tar.gz
+    elif [[ "${version}" == "3.1"* ]]; then
+      wget https://www.openssl.org/source/old/3.1/openssl-${version}.tar.gz
+    elif [[ "${version}" == "3.2"* ]]; then
+      wget https://www.openssl.org/source/old/3.2/openssl-${version}.tar.gz
+    elif [[ "${version}" == "3.3"* ]]; then
+      wget https://www.openssl.org/source/old/3.3/openssl-${version}.tar.gz
+    fi
+
+    tar -vxf openssl-${version}.tar.gz
+    cd openssl-${version}
     ./Configure --prefix=$WORKSPACE/env/openssl --openssldir=$WORKSPACE/env/openssl no-ssl2
     if [[ "$NBTHREADS" != "" ]]; then
         make -j $NBTHREADS
@@ -111,7 +123,10 @@ if [[ -z $(ls -A "${WORKSPACE}/env/python") ]]; then
 
     tar -vxf Python-3.12.1.tar.xz
     cd Python-3.12.1
-    LDFLAGS="-L $WORKSPACE/env/openssl/lib -Wl,-rpath,$WORKSPACE/env/openssl/lib" ./configure --with-openssl=$WORKSPACE/env/openssl --enable-shared --prefix=$WORKSPACE/env/python
+    LDFLAGS="-L$WORKSPACE/env/openssl/lib/ -L$WORKSPACE/env/openssl/lib64/" \
+    LD_LIBRARY_PATH="$WORKSPACE/env/openssl/lib/:$WORKSPACE/env/openssl/lib64/" \
+    CPPFLAGS="-I/$WORKSPACE/env/openssl/include -I/$WORKSPACE/env/openssl/include/openssl" \
+    ./configure --with-openssl="$WORKSPACE/env/openssl" --enable-shared --prefix=$WORKSPACE/env/python
     if [[ "$NBTHREADS" != "" ]]; then
         make -j $NBTHREADS
     else
