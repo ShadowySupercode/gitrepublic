@@ -14,7 +14,7 @@ repositories:
     version: master
   NostrSDK:
     type: git
-    url: git@github.com:ShadowySupercode/libnostr.git
+    url: git@github.com:ShadowySupercode/NostrSDK.git
     version: master
   libnostr:
     type: git
