@@ -2,19 +2,23 @@
 repositories:
   gitrepublic-core:
     type: git
-    url: git@github.com:finrodfelagund97/gitrepublic-core.git
+    url: git@github.com:ShadowySupercode/gitrepublic-core.git
     version: master
   gitrepublic-cli:
     type: git
-    url: git@github.com:finrodfelagund97/gitrepublic-cli.git
+    url: git@github.com:ShadowySupercode/gitrepublic-cli.git
     version: master
   uuid_v4:
     type: git
-    url: git@github.com:crashoz/uuid_v4.git
+    url: git@github.com:ShadowySupercode/uuid_v4.git
     version: master
   NostrSDK:
     type: git
-    url: git@github.com:finrodfelagund97/NostrSDK.git
+    url: git@github.com:ShadowySupercode/libnostr.git
+    version: master
+  libnostr:
+    type: git
+    url: git@github.com:ShadowySupercode/libnostr.git
     version: master
   vcpkg:
     type: git
