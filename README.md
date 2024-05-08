@@ -106,7 +106,11 @@ deactivate
 Once `vcstool` has been installed, seed the workspace by executing this command in the terminal:
 
 ```bash
-vcs import < .manifests/master.yaml | vcstool import < .manifest/master.yaml # or use any other manifest
+mkdir -p packages # to create a `packages` directory to hold all the repos
+```
+
+```bash
+vcs import packages < .manifests/master.yaml | vcstool import packages < .manifest/master.yaml # or use any other manifest
 ```
 
 ## Build GitRepublic
